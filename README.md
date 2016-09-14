@@ -8,6 +8,8 @@ This repository is part of the OSS API Portal/API Management system "wicked" by 
 
 This repository contains/will contain sample code for deploying, or generally interacting with the API Portal.
 
+In the `local-kong` directory, you will find a simple Docker Compose file to run only Kong locally on your Docker host.
+
 ## Exporting Configuration
 
 To test the deployment end points (see also documentation on this), do the following (you will need a recent node.js installation on your machine):
