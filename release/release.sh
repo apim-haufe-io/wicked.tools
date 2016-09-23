@@ -39,6 +39,7 @@ echo "Logging in to registry..."
 docker login --username "$DOCKER_REGISTRY_USER" --password "$DOCKER_REGISTRY_PASSWORD" $dockerRegistry
 
 for image in "portal-env" \
+             "portal-api" \
              "portal-chatbot" \
              "portal" \
              "portal-kong-adapter" \
