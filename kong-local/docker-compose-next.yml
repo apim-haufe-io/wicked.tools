@@ -1,33 +1,24 @@
 version: '2'
 
 services:
-  kongdb-data:
-    image: postgres:9.4
-    volumes:
-    - "/var/lib/postgresql/data"
-    command: "/bin/true"
-
   kong-database:
     image: postgres:9.4
-    volumes_from:
-    - "kongdb-data"
     environment:
     - "POSTGRES_USER=kong"
     - "POSTGRES_PASSWORD=kong"
     restart: unless-stopped
 
   kong:
-    image: haufelexware/wicked.kong:latest
+    image: haufelexware/wicked.kong:next
     depends_on:
     - "kong-database"
+    links:
+    - kong-database:kong-database
     security_opt:
     - seccomp:unconfined
     ports:
     - "8000:8000"
     - "8443:8443"
     - "8001:8001"
-    environment:
-    - "DATABASE=postgres"
     command: "dockerize -timeout 30s -wait tcp://kong-database:5432 kong start"
     restart: unless-stopped
-  
