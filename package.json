@@ -1,5 +1,5 @@
 {
-  "version": "0.9.1", 
+  "version": "0.10.0", 
   "license": "Apache-2.0", 
   "author": "Martin Danielsson", 
   "description": "Command line tools for the wicked API Portal", 
