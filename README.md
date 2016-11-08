@@ -10,6 +10,8 @@ This repository contains/will contain sample code for deploying, or generally in
 
 In the `local-kong` directory, you will find a simple Docker Compose file to run only Kong locally on your Docker host.
 
+The `adfs` directory contains scripts which make configuring ADFS logins easier (extract signing certificates).
+
 ## Exporting Configuration
 
 To test the deployment end points (see also documentation on this), do the following (you will need a recent node.js installation on your machine):
@@ -26,3 +28,11 @@ $ node deploy/export-config.js https://api.yourcompany.com/deploy/v1 archive.tgz
 ```
 
 The URL `api.yourcompany.com` must point to the API Gateway of your API Portal installation, **not to the Portal UI**.
+
+## Extract ADFS Signing Certificate
+
+The `adfs/get-adfs-signing-cert.js` script can be used to extract the certificate used by ADFS to sign its JWT Tokens; this certificate is needed when you want to support either ADFS Login to the Portal, or ADFS securing of APIs, using your own Authorization Server (or the sample [Passport Auth Server](https://github.com/Haufe-Lexware/wicked.auth-passport)).
+
+```bash
+$ node adfs/get-adfs-signing-cert.js <metadata.xml URL of your ADFS>
+```

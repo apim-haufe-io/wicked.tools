@@ -1,25 +1,26 @@
 {
-  "version": "0.10.0", 
-  "license": "Apache-2.0", 
-  "author": "Martin Danielsson", 
-  "description": "Command line tools for the wicked API Portal", 
+  "version": "0.10.0",
+  "license": "Apache-2.0",
+  "author": "Martin Danielsson",
+  "description": "Command line tools for the wicked API Portal",
   "dependencies": {
-    "async": "2.0.1", 
-    "request": "2.74.0"
-  }, 
+    "async": "2.0.1",
+    "request": "2.74.0",
+    "xml2js": "0.4.17"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
-  }, 
+  },
   "keywords": [
-    "api", 
-    "portal", 
-    "wicked", 
+    "api",
+    "portal",
+    "wicked",
     "haufe"
-  ], 
-  "main": "index.js", 
+  ],
+  "main": "index.js",
   "jshintConfig": {
-    "node": true, 
+    "node": true,
     "esversion": 6
-  }, 
+  },
   "name": "portal-tools"
 }
