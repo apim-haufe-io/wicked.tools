@@ -36,3 +36,11 @@ The `adfs/get-adfs-signing-cert.js` script can be used to extract the certificat
 ```bash
 $ node adfs/get-adfs-signing-cert.js <metadata.xml URL of your ADFS>
 ```
+
+If your ADFS runs on `identity.yourcompany.com`, the following command line may work:
+
+```bash
+$ node adfs/get-adfs-signing-cert.js https://identity.yourcompany.com/federationmetadata/2007-06/federationmetadata.xml
+```
+
+Copy and paste the certificate into the Kickstarter, or pipe it into a `.pem` file.
