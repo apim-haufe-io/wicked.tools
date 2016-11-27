@@ -45,8 +45,7 @@ for image in "portal-env" \
              "portal-kong-adapter" \
              "portal-mailer" \
              "kong" \
-             "portal-kickstarter" \
-             "mashape.kong"; do
+             "portal-kickstarter"; do
 
     echo ""
     tagSuffix=""
