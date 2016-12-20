@@ -11,7 +11,7 @@ if (success && process.argv.length < 4)
     success = false;
 const options = utils.parseCommandLine(process.argv);
 if (!options.url || !options.file) {
-    console.log('URL and/or output file not specified:');
+    console.log('URL and/or input file not specified:');
     console.log(options);
     success = false;
 }
@@ -24,7 +24,7 @@ if (!success) {
 
 // deployUrl will end with /
 const deployUrl = utils.makeApiUrl(options.url);
-const outputFileName = options.file;
+const inputFileName = options.file;
 if (options.host)
     utils.setHost(options.host);
 
@@ -34,13 +34,9 @@ utils.configureAgent(deployUrl);
 
 async.waterfall([
     function (callback) {
-        utils.postExport(deployUrl, callback);
-    }, function (exportId, callback) {
-        utils.awaitDone(deployUrl, 'export', exportId, callback);
-    }, function (exportId, callback) {
-        utils.downloadArchive(deployUrl, exportId, outputFileName, callback);
-    }, function (exportId, callback) {
-        utils.cancelExport(deployUrl, exportId, callback);
+        utils.postImport(deployUrl, inputFileName, callback);
+    }, function (importId, callback) {
+        utils.awaitDone(deployUrl, 'import', importId, callback);
     }
 ], function (err, result) {
     if (err) {
@@ -49,29 +45,26 @@ async.waterfall([
         process.exit(1);
     }
 
-    console.log('Export ID: ' + result);
+    console.log('Import ID: ' + result);
     process.exit(0);
 });
+
 
 // SUBROUTINES
 
 function printUsage() {
     console.log('');
-    console.log('Usage: node export-config.js [<options>] <https://api.yourcompany.com/deploy/v1> <output.enc>');
+    console.log('Usage: node import-config.js [<options>] <https://api.yourcompany.com/deploy/v1> <input.enc>');
     console.log('');
     console.log('  The environment variable PORTAL_CONFIG_KEY has to contain the deployment');
     console.log('  key which was used when creating the configuration repository and');
     console.log('  deploying the API Portal.');
     console.log('');
-    console.log('  The output file <output.enc> will have been encrypted using AES256, using');
+    console.log('  The input file <output.enc> must have been encrypted using AES256, using');
     console.log('  openssl, having applied the key passed in PORTAL_CONFIG_KEY.');
-    console.log('');
-    console.log('  To decrypt the file, use the following command line:');
-    console.log('');
-    console.log('  openssl enc -d -aes-256-cbc -k "$PORTAL_CONFIG_KEY" -in <output.enc> -out archive.tgz');
     console.log('');
     console.log('  Options:');
     console.log('    --host <host name>: Specify the Host header to use when talking to wicked;');
-    console.log('         This enables deploying to or exporting from instances without correct');
+    console.log('         This enables importing to or exporting from instances without correct');
     console.log('         DNS entries.');
 }
