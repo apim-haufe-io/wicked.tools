@@ -20,6 +20,8 @@ services:
     image: haufelexware/wicked.kong:latest
     depends_on:
     - "kong-database"
+    links:
+    - "kong-database"
     security_opt:
     - seccomp:unconfined
     ports:
@@ -28,6 +30,5 @@ services:
     - "8001:8001"
     environment:
     - "DATABASE=postgres"
-    command: "dockerize -timeout 30s -wait tcp://kong-database:5432 kong start"
     restart: unless-stopped
   
