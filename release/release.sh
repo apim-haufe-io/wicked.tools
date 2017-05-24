@@ -32,8 +32,8 @@ fi
 majorVersion=${BASH_REMATCH[1]}
 minorVersion=${BASH_REMATCH[2]}
 releaseTag=$1
-majorTag=$majorVersion
-minorTag=$majorVersion.$minorVersion
+majorTag=${majorVersion}
+minorTag=${majorVersion}.${minorVersion}
 
 echo "Logging in to registry..."
 docker login --username "$DOCKER_REGISTRY_USER" --password "$DOCKER_REGISTRY_PASSWORD" $dockerRegistry
@@ -52,17 +52,47 @@ for image in "portal-env" \
     if [ "portal-env" = "$image" ]; then
         tagSuffix="-onbuild"
     fi
-    imageName=${DOCKER_PREFIX}$image
-    devImage=$imageName:dev$tagSuffix
-    echo Pulling image $devImage
-    docker pull $devImage
+    imageName=${DOCKER_PREFIX}${image}
+    devImage=${imageName}:dev${tagSuffix}
+    echo Pulling image ${devImage}
+    docker pull ${devImage}
 
     echo "Tagging and pushing image ${DOCKER_PREFIX}$image..."
-    for tag in $releaseTag $minorTag $majorTag "latest"; do
+    for tag in ${releaseTag} ${minorTag} ${majorTag} "latest"; do
         setTag=${tag}${tagSuffix}
-        echo "Tag $setTag..."
-        docker tag $devImage $imageName:$setTag
-        docker push $imageName:$setTag
+        echo "Tag ${setTag}..."
+        docker tag ${devImage} ${imageName}:${setTag}
+        docker push ${imageName}:${setTag}
+    done
+
+    echo "Done for image $image."  
+done
+
+for image in "portal-env" \
+             "portal-api" \
+             "portal-chatbot" \
+             "portal" \
+             "portal-kong-adapter" \
+             "portal-mailer" \
+             "kong" \
+             "portal-kickstarter"; do
+
+    echo ""
+    tagSuffix=""
+    if [ "portal-env" = "$image" ]; then
+        tagSuffix="-onbuild"
+    fi
+    imageName=${DOCKER_PREFIX}${image}
+    devImage=${imageName}:dev${tagSuffix}-alpine
+    echo Pulling image ${devImage}-alpine
+    docker pull ${devImage}-alpine
+
+    echo "Tagging and pushing image ${DOCKER_PREFIX}$image..."
+    for tag in ${releaseTag} ${minorTag} ${majorTag} "latest"; do
+        setTag=${tag}${tagSuffix}-alpine
+        echo "Tag ${setTag}..."
+        docker tag ${devImage} ${imageName}:${setTag}
+        docker push ${imageName}:${setTag}
     done
 
     echo "Done for image $image."  
