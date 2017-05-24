@@ -74,7 +74,6 @@ for image in "portal-env" \
              "portal" \
              "portal-kong-adapter" \
              "portal-mailer" \
-             "kong" \
              "portal-kickstarter"; do
 
     echo ""
