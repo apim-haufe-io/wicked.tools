@@ -83,8 +83,8 @@ for image in "portal-env" \
     fi
     imageName=${DOCKER_PREFIX}${image}
     devImage=${imageName}:dev${tagSuffix}-alpine
-    echo Pulling image ${devImage}-alpine
-    docker pull ${devImage}-alpine
+    echo Pulling image ${devImage}
+    docker pull ${devImage}
 
     echo "Tagging and pushing image ${DOCKER_PREFIX}$image..."
     for tag in ${releaseTag} ${minorTag} ${majorTag} "latest"; do
