@@ -2,7 +2,7 @@ version: '2'
 
 services:
   kong-database:
-    image: postgres:9.4
+    image: postgres:9.6
     environment:
     - "POSTGRES_USER=kong"
     - "POSTGRES_PASSWORD=kong"
@@ -24,4 +24,3 @@ services:
     environment:
     - "PROXY_SSL_KEY"
     - "PROXY_SSL_CERT"
-

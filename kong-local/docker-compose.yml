@@ -2,13 +2,13 @@ version: '2'
 
 services:
   kongdb-data:
-    image: postgres:9.4
+    image: postgres:9.6
     volumes:
     - "/var/lib/postgresql/data"
     command: "/bin/true"
 
   kong-database:
-    image: postgres:9.4
+    image: postgres:9.6
     volumes_from:
     - "kongdb-data"
     environment:
