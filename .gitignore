@@ -2,3 +2,5 @@ node_modules
 *enc
 *tgz
 .DS_Store
+tmp
+
