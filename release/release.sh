@@ -53,15 +53,15 @@ for image in "portal-env" \
         tagSuffix="-onbuild"
     fi
     imageName=${DOCKER_PREFIX}${image}
-    devImage=${imageName}:dev${tagSuffix}
-    echo Pulling image ${devImage}
-    docker pull ${devImage}
+    masterImage=${imageName}:master${tagSuffix}
+    echo Pulling image ${masterImage}
+    docker pull ${masterImage}
 
     echo "Tagging and pushing image ${DOCKER_PREFIX}$image..."
     for tag in ${releaseTag} ${minorTag} ${majorTag} "latest"; do
         setTag=${tag}${tagSuffix}
         echo "Tag ${setTag}..."
-        docker tag ${devImage} ${imageName}:${setTag}
+        docker tag ${masterImage} ${imageName}:${setTag}
         docker push ${imageName}:${setTag}
     done
 
@@ -82,15 +82,15 @@ for image in "portal-env" \
         tagSuffix="-onbuild"
     fi
     imageName=${DOCKER_PREFIX}${image}
-    devImage=${imageName}:dev${tagSuffix}-alpine
-    echo Pulling image ${devImage}
-    docker pull ${devImage}
+    masterImage=${imageName}:master${tagSuffix}-alpine
+    echo Pulling image ${masterImage}
+    docker pull ${masterImage}
 
     echo "Tagging and pushing image ${DOCKER_PREFIX}$image..."
     for tag in ${releaseTag} ${minorTag} ${majorTag} "latest"; do
         setTag=${tag}${tagSuffix}-alpine
         echo "Tag ${setTag}..."
-        docker tag ${devImage} ${imageName}:${setTag}
+        docker tag ${masterImage} ${imageName}:${setTag}
         docker push ${imageName}:${setTag}
     done
 
