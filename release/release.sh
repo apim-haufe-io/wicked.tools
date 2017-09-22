@@ -44,8 +44,9 @@ for image in "portal-env" \
              "portal" \
              "portal-kong-adapter" \
              "portal-mailer" \
+             "portal-kickstarter" \
              "kong" \
-             "portal-kickstarter"; do
+             "k8s-wait"; do
 
     echo ""
     tagSuffix=""

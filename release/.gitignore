@@ -1,3 +1,2 @@
-release-github.sh
-release-bitbucket.sh
-
+env-github.sh
+env-bitbucket.sh
