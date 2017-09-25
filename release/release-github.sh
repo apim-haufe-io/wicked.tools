@@ -42,7 +42,7 @@ for image in "portal-env" \
              "portal-mailer" \
              "kong" \
              "portal-kickstarter" \
-             "k8s-wait"; do
+             "k8s-tool"; do
   echo ""
   echo "Creating Github release for wicked.${image}..."
   node create-github-release.js apim-haufe-io/wicked.${image} v$1
