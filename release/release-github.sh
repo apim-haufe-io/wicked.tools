@@ -40,6 +40,7 @@ for image in "portal-env" \
              "portal" \
              "portal-kong-adapter" \
              "portal-mailer" \
+             "portal-auth" \
              "kong" \
              "portal-kickstarter" \
              "k8s-tool"; do

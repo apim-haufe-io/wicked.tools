@@ -38,6 +38,7 @@ for repo in "wicked.portal" \
             "wicked.portal-chatbot" \
             "wicked.portal-kickstarter" \
             "wicked.portal-mailer" \
+            "wicked.portal-auth" \
             "wicked.portal-kong-adapter"; do
 
     echo Versioning repository $repo...

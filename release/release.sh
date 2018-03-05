@@ -45,6 +45,7 @@ for image in "portal-env" \
              "portal-kong-adapter" \
              "portal-mailer" \
              "portal-kickstarter" \
+             "portal-auth" \
              "kong" \
              "k8s-tool"; do
 
@@ -75,6 +76,7 @@ for image in "portal-env" \
              "portal" \
              "portal-kong-adapter" \
              "portal-mailer" \
+             "portal-auth" \
              "portal-kickstarter"; do
 
     echo ""
