@@ -2,6 +2,8 @@
 
 set -e
 
+. ./_repos.sh
+
 if [ -z "$1" ]; then
   echo "Usage: $0 <version>"
   echo "Example: $0 1.22.3"
@@ -13,6 +15,8 @@ fi
 # - DOCKER_REGISTRY_USER (docker hub user)
 # - DOCKER_REGISTRY_PASSWORD
 # - GITHUB_TOKEN (access token for the GitHub API)
+if [ ! -f ./env-github.sh ]; then
+  echo "ERROR: Expected file ./env-github.sh to be present."
 source ./env-github.sh
 
 if [ -d release_tmp ]; then
@@ -34,15 +38,8 @@ popd
 
 ./verify-images.sh master
 
-for image in "portal-env" \
-             "portal-api" \
-             "portal-chatbot" \
-             "portal" \
-             "portal-kong-adapter" \
-             "portal-mailer" \
-             "kong" \
-             "portal-kickstarter" \
-             "k8s-tool"; do
+# imageBases from _repos.sh
+for image in ${imageBases}; do
   echo ""
   echo "Creating Github release for wicked.${image}..."
   node create-github-release.js apim-haufe-io/wicked.${image} v$1

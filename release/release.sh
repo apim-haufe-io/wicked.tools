@@ -2,6 +2,8 @@
 
 set -e
 
+. ./_repos.sh
+
 versionregex="^([0-9]+)\.([0-9]+)\.[0-9]+$"
 
 dockerRegistry=$DOCKER_REGISTRY
@@ -38,16 +40,8 @@ minorTag=${majorVersion}.${minorVersion}
 echo "Logging in to registry..."
 docker login --username "$DOCKER_REGISTRY_USER" --password "$DOCKER_REGISTRY_PASSWORD" $dockerRegistry
 
-for image in "portal-env" \
-             "portal-api" \
-             "portal-chatbot" \
-             "portal" \
-             "portal-kong-adapter" \
-             "portal-mailer" \
-             "portal-kickstarter" \
-             "kong" \
-             "k8s-tool" \
-             "k8s-init"; do
+# imageBases defined in _repos.sh
+for image in ${imageBases}; do
 
     echo ""
     tagSuffix=""
@@ -56,7 +50,7 @@ for image in "portal-env" \
     fi
     imageName=${DOCKER_PREFIX}${image}
     masterImage=${imageName}:master${tagSuffix}
-    echo Pulling image ${masterImage}
+    echo "Pulling image ${masterImage}"
     docker pull ${masterImage}
 
     echo "Tagging and pushing image ${DOCKER_PREFIX}$image..."
@@ -70,13 +64,8 @@ for image in "portal-env" \
     echo "Done for image $image."  
 done
 
-for image in "portal-env" \
-             "portal-api" \
-             "portal-chatbot" \
-             "portal" \
-             "portal-kong-adapter" \
-             "portal-mailer" \
-             "portal-kickstarter"; do
+# alpineImageBases defined in _repos.sh
+for image in ${alpineImageBases}; do
 
     echo ""
     tagSuffix=""
