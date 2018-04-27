@@ -50,7 +50,6 @@ if [ ! "$1" = "--docs" ]; then
 		echo "ERROR: Unclean repositories found, exiting."
 		exit 1
 	fi
-	exit 1
 
 	if [[ "$1" == "--merge" ]]; then
 		echo "==============================="

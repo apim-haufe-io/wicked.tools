@@ -52,10 +52,10 @@ for repo in $repos; do
     echo "- ${branch} HEAD ref: ${branchHead}"
     echo "- Pulling docker images..."
     imageName=haufelexware/${repo}:${branch}-alpine
-    isKong=0
-    if [[ wicked.kong == $repo ]]; then
+    isNotEnvBased=0
+    if [[ "wicked.kong" == "$repo" ]] || [[ "wicked.k8s-init" == "$repo" ]] || [[ "wicked.k8s-tool" == "$repo" ]]; then
       imageName=haufelexware/${repo}:${branch}
-      isKong=1
+      isNotEnvBased=1
     fi
     docker pull ${imageName} &> docker.log
     docker create --name tmp_image ${imageName} &> /dev/null
@@ -66,7 +66,7 @@ for repo in $repos; do
       echo "ERROR: Mismatch!"
       failed=1
     fi
-    if [[ $isKong == 0 ]]; then
+    if [[ $isNotEnvBased == 0 ]]; then
       docker cp tmp_image:/usr/src/portal-env/git_last_commit env_git_last_commit
       dockerEnvCommit=$(head -1 env_git_last_commit | cut -d ' ' -f 2)
       echo "- portal-env commit: ${dockerEnvCommit}"
@@ -85,3 +85,7 @@ if [[ $failed == 1 ]]; then
   echo "ERROR: Commit version check failed. See log."
   exit 1
 fi
+
+echo "========================="
+echo "SUCCESS."
+echo "========================="
