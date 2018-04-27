@@ -17,6 +17,8 @@ fi
 # - GITHUB_TOKEN (access token for the GitHub API)
 if [ ! -f ./env-github.sh ]; then
   echo "ERROR: Expected file ./env-github.sh to be present."
+  exit 1
+fi
 source ./env-github.sh
 
 if [ -d release_tmp ]; then
