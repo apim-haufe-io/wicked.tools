@@ -37,6 +37,12 @@ if [ ! "$1" = "--docs" ]; then
 			git status
 			allClean=false
 		fi
+		gitCherry="$(git cherry -v)"
+		if [ ! -z "$gitCherry" ]; then
+			echo "ERROR: Repository $f has un-pushed commits."
+			git cherry -v
+			allClean=false
+		fi
 		popd > /dev/null
 	done
 
