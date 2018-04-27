@@ -21,7 +21,14 @@ fi
 
 echo ""
 
-repos="wicked.portal wicked.portal-api wicked.portal-kong-adapter wicked.portal-mailer wicked.portal-chatbot wicked.kong"
+repos="wicked.portal \
+  wicked.portal-api \
+  wicked.portal-kong-adapter \
+  wicked.portal-mailer \
+  wicked.portal-chatbot \
+  wicked.kong \
+  wicked.k8s-tool \
+  wicked.k8s-init"
 
 mkdir tmp
 pushd tmp &> /dev/null

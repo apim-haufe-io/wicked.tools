@@ -2,6 +2,9 @@
 
 set -e
 
+echo "DO NOT USE THIS."
+exit 1
+
 baseDir=`pwd`
 
 if [ -z "$GIT_USERNAME" ] || [ -z "$GIT_PASSWORD" ]; then
@@ -38,7 +41,8 @@ for repo in "wicked.portal" \
             "wicked.portal-chatbot" \
             "wicked.portal-kickstarter" \
             "wicked.portal-mailer" \
-            "wicked.portal-kong-adapter"; do
+            "wicked.portal-kong-adapter" \
+            "wicked.k8s-init"; do
 
     echo Versioning repository $repo...
 

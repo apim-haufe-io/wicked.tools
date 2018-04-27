@@ -46,7 +46,8 @@ for image in "portal-env" \
              "portal-mailer" \
              "portal-kickstarter" \
              "kong" \
-             "k8s-tool"; do
+             "k8s-tool" \
+             "k8s-init"; do
 
     echo ""
     tagSuffix=""
