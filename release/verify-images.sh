@@ -2,6 +2,8 @@
 
 set -e
 
+. ./_repos.sh
+
 branch="master"
 if [ -z "$1" ]; then
   echo "INFO: Branch not given, assuming 'master'."
@@ -21,15 +23,6 @@ fi
 
 echo ""
 
-repos="wicked.portal \
-  wicked.portal-api \
-  wicked.portal-kong-adapter \
-  wicked.portal-mailer \
-  wicked.portal-chatbot \
-  wicked.kong \
-  wicked.k8s-tool \
-  wicked.k8s-init"
-
 mkdir tmp
 pushd tmp &> /dev/null
   echo "INFO: Retrieving HEAD of portal-env..."
@@ -40,46 +33,51 @@ pushd tmp &> /dev/null
 popd
 rm -rf tmp
 
+#set -x
+
 failed=0
 for alpine in "-alpine" ""; do
-  for repo in $repos; do
-    mkdir tmp
-    echo ""
-    echo "Verifying ${repo}:${branch}${alpine}..."
-    pushd tmp &> /dev/null
-      git init &> /dev/null
-      git remote add github https://github.com/apim-haufe-io/${repo}.git &> /dev/null
-      branchHead=$(git ls-remote github refs/heads/${branch} | cut -f 1)
-      echo "- ${branch} HEAD ref: ${branchHead}"
-      echo "- Pulling docker images..."
-      imageName=haufelexware/${repo}:${branch}${alpine}
-      isNotEnvBased=0
-      if [[ "wicked.kong" == "$repo" ]] || [[ "wicked.k8s-init" == "$repo" ]] || [[ "wicked.k8s-tool" == "$repo" ]]; then
-        imageName=haufelexware/${repo}:${branch}
-        isNotEnvBased=1
-      fi
-      docker pull ${imageName} &> docker.log
-      docker create --name tmp_image ${imageName} &> /dev/null
-      docker cp tmp_image:/usr/src/app/git_last_commit .
-      dockerCommit=$(head -1 git_last_commit | cut -d ' ' -f 2)
-      echo "- Docker image commit: ${dockerCommit}"
-      if [[ ${dockerCommit} != ${branchHead} ]]; then
-        echo "ERROR: Mismatch!"
-        failed=1
-      fi
-      if [[ $isNotEnvBased == 0 ]]; then
-        docker cp tmp_image:/usr/src/portal-env/git_last_commit env_git_last_commit
-        dockerEnvCommit=$(head -1 env_git_last_commit | cut -d ' ' -f 2)
-        echo "- portal-env commit: ${dockerEnvCommit}"
-        if [[ ${dockerEnvCommit} != ${envBranchHead} ]]; then
-          echo "ERROR: Mismatch in env commit!"
+  # imageRepos from _repos.sh
+  for repo in ${imageRepos}; do
+    if [[ "$repo" != "wicked.portal-env" ]]; then
+      mkdir tmp
+      echo ""
+      echo "Verifying ${repo}:${branch}${alpine}..."
+      pushd tmp &> /dev/null
+        git init &> /dev/null
+        git remote add github https://github.com/apim-haufe-io/${repo}.git &> /dev/null
+        branchHead=$(git ls-remote github refs/heads/${branch} | cut -f 1)
+        echo "- ${branch} HEAD ref: ${branchHead}"
+        echo "- Pulling docker images..."
+        imageName=haufelexware/${repo}:${branch}${alpine}
+        isNotEnvBased=0
+        if [[ "wicked.kong" == "$repo" ]] || [[ "wicked.k8s-init" == "$repo" ]] || [[ "wicked.k8s-tool" == "$repo" ]]; then
+          imageName=haufelexware/${repo}:${branch}
+          isNotEnvBased=1
+        fi
+        docker pull ${imageName} &> docker.log
+        docker create --name tmp_image ${imageName} &> /dev/null
+        docker cp tmp_image:/usr/src/app/git_last_commit .
+        dockerCommit=$(head -1 git_last_commit | cut -d ' ' -f 2)
+        echo "- Docker image commit: ${dockerCommit}"
+        if [[ ${dockerCommit} != ${branchHead} ]]; then
+          echo "ERROR: Mismatch!"
           failed=1
         fi
-      fi
-      docker rm tmp_image &> /dev/null
-    popd &> /dev/null
+        if [[ $isNotEnvBased == 0 ]]; then
+          docker cp tmp_image:/usr/src/portal-env/git_last_commit env_git_last_commit
+          dockerEnvCommit=$(head -1 env_git_last_commit | cut -d ' ' -f 2)
+          echo "- portal-env commit: ${dockerEnvCommit}"
+          if [[ ${dockerEnvCommit} != ${envBranchHead} ]]; then
+            echo "ERROR: Mismatch in env commit!"
+            failed=1
+          fi
+        fi
+        docker rm tmp_image &> /dev/null
+      popd &> /dev/null
 
-    rm -rf tmp
+      rm -rf tmp
+    fi
   done
 done
 

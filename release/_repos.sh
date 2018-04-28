@@ -32,7 +32,11 @@ repos="${jsRepos} \
     wicked.kong \
     wicked.k8s-tool"
 
-imageBases=$(for r in ${repos}; do echo ${r:7}; done)
+imageRepos="${baseRepos} \
+    wicked.kong \
+    wicked.k8s-tool"
+
+imageBases=$(for r in ${imageRepos}; do echo ${r:7}; done)
 
 alpineImageBases="portal-env \
     portal-api \
