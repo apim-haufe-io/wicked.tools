@@ -1,17 +1,5 @@
 #!/bin/bash
 
-# for Wicked 1.0.0:
-# jsRepos="wicked.portal \
-# 	 wicked.portal-api \
-# 	 wicked.portal-chatbot \
-# 	 wicked.portal-env \
-# 	 wicked.portal-kong-adapter \
-# 	 wicked.portal-mailer \
-# 	 wicked.portal-kickstarter \
-#    wicked.portal-auth \
-# 	 wicked.k8s-init"
-
-# For wicked 0.x
 baseRepos="wicked.portal \
     wicked.portal-api \
     wicked.portal-chatbot \
@@ -19,6 +7,7 @@ baseRepos="wicked.portal \
     wicked.portal-kong-adapter \
     wicked.portal-mailer \
     wicked.portal-kickstarter \
+    wicked.portal-auth \
     wicked.k8s-init"
 
 jsRepos="${baseRepos} \
@@ -31,6 +20,10 @@ versionDirs="${baseRepos} \
 repos="${jsRepos} \
     wicked.kong \
     wicked.k8s-tool"
+
+sourceRepos="${repos} \
+    wicked.portal-test \
+    wicked-sample-config"
 
 imageRepos="${baseRepos} \
     wicked.kong \

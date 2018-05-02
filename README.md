@@ -6,28 +6,20 @@ This repository is part of the OSS API Portal/API Management system "wicked" by 
 
 ## What's in this repository?
 
-This repository contains/will contain sample code for deploying, or generally interacting with the API Portal.
+This repository contains tooling for
 
-In the `local-kong` directory, you will find a simple Docker Compose file to run only Kong locally on your Docker host.
+* wicked development,
+* release management.
+* ADFS signing certificate extraction (see below)
 
-The `adfs` directory contains scripts which make configuring ADFS logins easier (extract signing certificates).
+### Development guides
 
-## Exporting Configuration
+See the [development README](development/README.md) for more information.
 
-To test the deployment end points (see also documentation on this), do the following (you will need a recent node.js installation on your machine):
+### Release management
 
-```bash
-$ git clone https://github.com/Haufe-Lexware/wicked.portal-tools
-...
-$ cd wicked.portal-tools
-$ npm install
-...
-$ export PORTAL_CONFIG_KEY=<the deployment key of your API Portal instance>
-$ node deploy/export-config.js https://api.yourcompany.com/deploy/v1 archive.tgz.enc
-...
-```
+All release related tooling can be found in the [release folder](release).
 
-The URL `api.yourcompany.com` must point to the API Gateway of your API Portal installation, **not to the Portal UI**.
 
 ## Extract ADFS Signing Certificate
 

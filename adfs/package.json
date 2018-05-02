@@ -1,8 +1,8 @@
 {
-  "version": "0.10.1",
+  "version": "1.0.0",
   "license": "Apache-2.0",
   "author": "Martin Danielsson",
-  "description": "Command line tools for the wicked API Portal",
+  "description": "Get ADFS Signing Certificate",
   "dependencies": {
     "async": "2.0.1",
     "js-yaml": "3.10.0",
@@ -18,10 +18,10 @@
     "wicked",
     "haufe"
   ],
-  "main": "index.js",
+  "main": "get-adfs-signing-cert.js",
   "jshintConfig": {
     "node": true,
     "esversion": 6
   },
-  "name": "portal-tools"
+  "name": "wicked.get-adfs-signing-cert"
 }
