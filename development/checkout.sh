@@ -89,9 +89,9 @@ pushd ${currentDir} > /dev/null
 . ../release/_repos.sh
 pushd ../../ > /dev/null
 
-function checkoutRepo {
+function cloneRepo {
     echo "=====================" >> ./wicked.portal-tools/development/git-clone.log
-    echo "Checking out repo $1" >> ./wicked.portal-tools/development/git-clone.log
+    echo "Cloning repo $1" >> ./wicked.portal-tools/development/git-clone.log
     echo "=====================" >> ./wicked.portal-tools/development/git-clone.log
     git clone "${baseUrl}$1" >> ./wicked.portal-tools/git-clone.log
 }
@@ -106,7 +106,7 @@ function checkoutBranch {
     git fetch
 
     # Check if branch is present
-    if [ -z "$(git branch | sed 's/^..//' | grep ${branchName})" ]; then
+    if [ -z "$(git branch -r | sed 's/^..//' | grep origin/${branchName})" ]; then
         echo "WARNING: Repository ${repo} doesn't have branch ${branchName}, falling back to ${fallbackBranch}."
         branchName=${fallbackBranch}
     fi
@@ -148,7 +148,7 @@ function runNpmInstall {
 for repo in ${sourceRepos}; do
     if [ ! -d ${repo} ]; then
         # Repo doesn't exist already
-        checkoutRepo ${repo}
+        cloneRepo ${repo}
     fi
     checkoutBranch ${repo} ${branch}
 done
