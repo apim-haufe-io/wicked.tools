@@ -83,3 +83,104 @@ Now you can start wicked using pm2:
 ```
 
 The API portal will be available at [http://localhost:3000](http://localhost:3000). Note that the wicked portal will immediately redirect to the IP address of your local machine instead of using the `localhost` alias. This has various reasons, the most important one being that Kong must be able to reach the services run via pm2, such as `portal-api:3001`. This is only possible if Kong actually knows the local IP.
+
+## Now what?
+
+Now that you have a local development environment of wicked running, you can start developing. It's assumed that you have check in rights to the `apim-haufe-io` repositories, and that you are allowed to create a branch. If this is not the case, you will still be able to work locally, or with a fork, but that's not covered here.
+
+### Branching off for features
+
+Features are usually implemented on a separate branch, and not on the main branch (which is usually `next`, but currently it's `wicked_1_0`). Feel free to bash Martin in case he doesn't do that in the future, but currently many things go directly into `wicked_1_0`, as it's very much work in progress.
+
+Still, you make sure that your repository/your repositories you want to change are up to date (pulled), and then you branch off the HEAD of the main branch to create your new branch:
+
+```
+~/Projects/wicked/wicked.portal$ git status
+On branch wicked_1_0
+Your branch is up-to-date with 'origin/wicked_1_0'.
+~/Projects/wicked/wicked.portal$ git checkout -b my_new_feature
+```
+
+Do this for all repositories you need to change for your feature, **always name the branch the same**.
+
+Now you can use the `checkout.sh` script to switch between features fairly easily; the following assumes you are working on a feature for `wicked_1_0`, and you have branched off that branch for your own work. Now you can check out your own branch by using this:
+
+```
+~/Projects/wicked/wicked.portal-tools/development$ ./checkout my_new_feature --install --pull --fallback wicked_1_0
+```
+
+This will check out your branch, in case it's present, and if it is not, fall back to the `wicked_1_0` branch (or `next`, or `master`, in that order). Please note that without the `--fallback` option, `checkout.sh` will fall back to the `next` branch, which currently (for wicked 1.0.0) is probably not desirable.
+
+### Checking state of development environment
+
+Use the following command to check the state of your development environment:
+
+```
+~/Projects/wicked/wicked.portal-tools/development$ ./checkout.sh --info
+==== STARTING ==== ./checkout.sh
+
+Repository                     Branch               Dirty    Needs push
+------------------------------------------------------------------------
+wicked.portal                  wicked_1_0           Yes                
+wicked.portal-api              wicked_1_0           Yes                
+wicked.portal-chatbot          next                 Yes                
+wicked.portal-env              wicked_1_0                              
+wicked.portal-kong-adapter     wicked_1_0           Yes                
+wicked.portal-mailer           wicked_1_0           Yes                
+wicked.portal-kickstarter      wicked_1_0           Yes                
+wicked.portal-auth             next                 Yes                
+wicked.k8s-init                next                 Yes                
+wicked.portal-test             wicked_1_0           Yes                
+wicked.kong                    wicked_1_0           Yes                
+wicked.k8s-tool                next                                    
+wicked.portal-test             wicked_1_0           Yes                
+wicked.node-sdk                wicked_1_0                              
+wicked-sample-config           wicked_1_0                              
+------------------------------------------------------------------------
+
+==========================
+SUCCESS: ./checkout.sh
+==========================
+```
+
+This enables you to see at one glance where you have open changes ("Dirty") or where you might have forgot to push changes. **Important**: This is not any kind of magic, this is just a more convenient way of iterating over the repositories and running `git status -s` and `git cherry -v`, but it gives a nice overview. Wicked is a little beast to work with, but this makes it easier.
+
+## Working with pm2 and docker
+
+When developing locally with the help of `pm2` and `docker`, you will need to familiarize yourself a little with the tools. This section contains a couple of use cases and how you may solve them.
+
+### Kill the database and start over
+
+To start over completely with a fresh database for wicked and Kong, issue the following commands:
+
+```
+~/Projects/wicked/wicked.portal-tools/development$ pm2 kill # This kills all running pm2 daemons and processes
+~/Projects/wicked/wicked.portal-tools/development$ docker-compose down # Kill the containers, kill network
+```
+
+Now you can restart everything again:
+
+```
+~/Projects/wicked/wicked.portal-tools/development$ docker-compose up -d
+~/Projects/wicked/wicked.portal-tools/development$ pm2 start wicked-pm2.config.js
+```
+
+### Debug in a node component
+
+Debugging in a node component is sometimes convenient, e.g. when running from Visual Studio Code. To do that, first stop the node process for the component you want to debug from in `pm2`:
+
+```
+~/Projects/wicked/wicked.portal-tools/development$ pm2 stop portal # as an example
+```
+
+Now you can run the debugger e.g. from VS Code, just as usual.
+
+#### Debugging portal-api
+
+In order to be able to debug in `wicked.portal-api`, you will have to make sure your debugger sets a series of environment variables correctly, to make sure the portal API is able to start correctly. You can retrieve the data from [wicked-pm2.config.js](wicked-pm2.config.js); the following variables need to be defined:
+
+* `NODE_ENV=localhost`
+* `PORTAL_CONFIG_BASE=../wicked-sample-config`
+* Optionally: `DEBUG`; set to `*` to make it output *lots* of information
+
+The env var `PORTAL_CONFIG_BASE` can be set to something else, but this is the sample configuration repository which usually works for development. If you want to test other configurations, go ahead and change this to use your own configuration.
