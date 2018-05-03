@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo "==== STARTING ==== $0"
+
 set -e
 
 currentDir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -142,7 +144,7 @@ function runNpmInstall {
     pushd ${thisRepo} > /dev/null
     echo "INFO: Running npm install for repository ${thisRepo}"
     npm install > /dev/null
-    popd
+    popd > /dev/null
 }
 
 for repo in ${sourceRepos}; do
@@ -155,9 +157,10 @@ done
 
 if [[ ${doInstall} == true ]]; then
     runNpmInstall wicked.portal-env
-    pushd wicked.portal-env > /dev/null
-    ./local-update-portal-env.sh
-    popd > /dev/null
+    # Add the wicked.node-sdk to where it needs to be
+    ./wicked.node-sdk/install-local-sdk.sh
+    # Add the portal-env package
+    ./wicked.portal-env/local-update-portal-env.sh
     for repo in ${versionDirs}; do
         if [[ ${repo} != wicked.portal-env ]]; then
             runNpmInstall ${repo}
@@ -169,5 +172,5 @@ popd > /dev/null # ../..
 popd > /dev/null # ${currentDir}
 
 echo "=========================="
-echo "SUCCESS"
+echo "SUCCESS: $0"
 echo "=========================="

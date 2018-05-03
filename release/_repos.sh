@@ -23,6 +23,7 @@ repos="${jsRepos} \
 
 sourceRepos="${repos} \
     wicked.portal-test \
+    wicked.node-sdk \
     wicked-sample-config"
 
 imageRepos="${baseRepos} \
