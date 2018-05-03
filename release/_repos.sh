@@ -22,7 +22,6 @@ repos="${jsRepos} \
     wicked.k8s-tool"
 
 sourceRepos="${repos} \
-    wicked.portal-test \
     wicked.node-sdk \
     wicked-sample-config"
 
