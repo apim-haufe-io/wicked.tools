@@ -25,7 +25,9 @@ To get your wicked development environment up and running as fast as possible, p
 ~/Projects/wicked$ cd wicked
 ~/Projects/wicked$ git clone https://github.com/apim-haufe-io/wicked.portal-tools
 ...
-~/Projects/wicked$ cd wicked.portal-tools/development
+~/Projects/wicked$ cd wicked.portal-tools
+~/Projects/wicked/wicked.portal-tools$ git checkout wicked_1_0 # This will be removed later
+~/Projects/wicked/wicked.portal-tools$ cd development
 ~/Projects/wicked/wicked.portal-tools/development$ ./checkout.sh <branch> --install
 ```
 
