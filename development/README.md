@@ -167,9 +167,25 @@ Now you can restart everything again:
 ~/Projects/wicked/wicked.portal-tools/development$ pm2 start wicked-pm2.config.js
 ```
 
-### Debug in a node component
+### Reload a node.js component
 
-Debugging in a node component is sometimes convenient, e.g. when running from Visual Studio Code. To do that, first stop the node process for the component you want to debug from in `pm2`:
+In case you have done changes on one of the node.js components, use the following command to make `pm2` pick them up:
+
+```
+~/Projects/wicked/wicked.portal-tools/development$ pm2 restart <component>
+```
+
+Whereas `<component>` is one of `portal`, `portal-api`, `portal-auth` and `portal-kong-adapter` (currently).
+
+### Seeing logs from node.js component
+
+You can use `pm2 logs <component>` to tail the logs from a specific component, or just `pm2 logs` to tail the logs of **all** components at the same time. This may look nasty, depending on the `DEBUG` setting you have specified (or not specified, in which case it's what's defined in `wicked-pm2.config.js`).
+
+PM2 will also tell you where the logs are located (usually in `~/.pm2` somewhere).
+
+### Debug in a node.js component
+
+Debugging in a node.js component is sometimes convenient, e.g. when running from Visual Studio Code. To do that, first stop the node.js process for the component you want to debug from in `pm2`:
 
 ```
 ~/Projects/wicked/wicked.portal-tools/development$ pm2 stop portal # as an example
