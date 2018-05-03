@@ -202,3 +202,39 @@ In order to be able to debug in `wicked.portal-api`, you will have to make sure 
 * Optionally: `DEBUG`; set to `*` to make it output *lots* of information
 
 The env var `PORTAL_CONFIG_BASE` can be set to something else, but this is the sample configuration repository which usually works for development. If you want to test other configurations, go ahead and change this to use your own configuration.
+
+### Update portal-env
+
+In those cases where you need to make a change in the `portal-env` (e.g. change/add a static configuration update or similar), you will need to propagate those changes to the two projects `wicked.portal-api` and `wicked.portal-kickstarter`; this is done using a shell script in the `wicked.portal-env` repository:
+
+```
+~/Projects/wicked/wicked.portal-env$ ./local-update-portal-env.sh
+```
+
+This script will run an `npm pack` on the portal-env repository and install it to the API and to the Kickstarter. Subsequently, you can use `pm2 restart all` to refresh the node.js components.
+
+**Note**: This script is automatically called when invoking the `checkout.sh` script with the `--install` option.
+
+### Update wicked-sdk
+
+Similarly, if you need to propagate changes to the wicked SDK locally, you can use the following script:
+
+```
+~/Projects/wicked/wicked.portal-env$ ./install-local-sdk.sh
+```
+
+If will pack up the current version of the wicked SDK and install it into the repositories where it's needed.
+
+**Note**: This script is automatically called when invoking the `checkout.sh` script with the `--install` option.
+
+### Run the kickstarter
+
+There is also [`kickstarter.config.js`](kickstarter.config.js) pm2 configuration file you may use to start the wicked Kickstarter, if you just want to run it on a previously existing configuration.
+
+In the pm2 configuration file, the configuration repository is hard coded to `../wicked-sample-config`; if you need to load a different configuration or if you need to create a new configuration, `cd` into the `wicked.portal-kickstarter` repository and run
+
+``` 
+~/Projects/wicked/wicked.portal-kickstarter$ node bin/kickstart
+```
+
+It will give you a short overview of the options of the kickstarter. The kickstarter starts at [http://localhost:3333](http://localhost:3333).
