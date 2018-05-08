@@ -31,6 +31,7 @@ pushd release_tmp
   git clone https://github.com/Haufe-Lexware/wicked.haufe.io.git
 
   pushd wicked.haufe.io
+    git checkout master
     echo "Checking Chart versions, has to match $1..."
     node ../../verify-chart-versions.js ./wicked $1
     echo "Packaging Helm Chart..."
