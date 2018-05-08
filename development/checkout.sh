@@ -18,7 +18,7 @@ function failure {
 }
 
 doInfo=false
-if [[ $1 == --info ]]; then
+if [[ $1 == --info ]] || [[ $1 == --status ]]; then
     doInfo=true
 else
     if [[ -z "$1" ]] || [[ $1 =~ --* ]]; then
@@ -29,7 +29,7 @@ else
         echo "  are no unpushed or uncommitted changes."
         echo ""
         echo "Options:"
-        echo "  --info    Just print branch information and quit."
+        echo "  --info    Just print branch information and quit (alias: --status)."
         echo "  --pull    Also pull the latest changes from the origin."
         echo "  --install Install wicked SDK, portal-env and node_modules into the repositories"
         echo "  --fallback <branch>"
@@ -50,6 +50,10 @@ if [[ ${doInfo} == false ]]; then
         case "$1" in
             "--info")
                 echo "ERROR: If you supply a branch, --info is not supported."
+                exit 1
+                ;;
+            "--status")
+                echo "ERROR: If you supply a branch, --status is not supported."
                 exit 1
                 ;;
             "--pull")
