@@ -1,6 +1,8 @@
 #!/bin/bash
 
-echo "==== STARTING ==== $0"
+echo "=========================="
+echo "START: $0"
+echo "=========================="
 
 set -e
 
@@ -18,8 +20,12 @@ function failure {
 }
 
 doInfo=false
+doLongInfo=false
 if [[ $1 == --info ]] || [[ $1 == --status ]]; then
     doInfo=true
+    if [[ $2 == --long ]]; then
+        doLongInfo=true
+    fi
 else
     if [[ -z "$1" ]] || [[ $1 =~ --* ]]; then
 
@@ -29,7 +35,7 @@ else
         echo "  are no unpushed or uncommitted changes."
         echo ""
         echo "Options:"
-        echo "  --info    Just print branch information and quit (alias: --status)."
+        echo "  --info [--long] Just print branch information and quit (alias: --status)."
         echo "  --pull    Also pull the latest changes from the origin."
         echo "  --install Install wicked SDK, portal-env and node_modules into the repositories"
         echo "  --fallback <branch>"
@@ -203,11 +209,42 @@ function printBranchInfo {
     else
         pushd ${thisRepo} > /dev/null
         currentBranch=$(git rev-parse --abbrev-ref HEAD)
+        gitOtherStatus=$(git status -s | grep -v package-lock || :)
+        gitLockStatus=$(git status -s | grep package-lock || :)
         isDirty=""
+        isLockDirty=""
         needsPush=""
-        if [ -n "$(git status -s)" ]; then isDirty=Yes; fi
+        if [ -n "${gitOtherStatus}" ]; then isDirty=Yes; fi
+        if [ -n "${gitLockStatus}" ]; then isLockDirty=Yes; fi
         if [ -n "$(git cherry -v)" ]; then needsPush=Yes; fi
-        printf "%-30s %-20s %-8s %-10s\n" "${thisRepo}" "${currentBranch}" "${isDirty}" "${needsPush}"
+        printf "%-30s %-20s %-8s %-10s %-10s\n" "${thisRepo}" "${currentBranch}" "${isDirty}" "${isLockDirty}" "${needsPush}"
+        popd > /dev/null
+    fi
+}
+
+function printGitStatus {
+    local thisRepo currentBranch isDirty needsPush
+    thisRepo=$1
+    if [ ! -d $thisRepo ]; then
+        echo "WARNING: Could not find repository ${thisRepo}, has it been cloned?"
+    else
+        pushd ${thisRepo} > /dev/null
+        echo "--------------"
+        echo "Repository: ${thisRepo}"
+        # echo "Branch: $(git rev-parse --abbrev-ref HEAD)"
+        isDirty=$(git status -s)
+        needsPush=$(git cherry -v)
+        if [ -n "${isDirty}" ]; then
+            echo "git status -s:"
+            echo "${isDirty}"
+        fi
+        if [ -n "${needsPush}" ]; then
+            echo "git cherry -v:"
+            echo "${needsPush}"
+        fi
+        if [ -z "${isDirty}" ] && [ -z "${needsPush}" ]; then
+            echo "CLEAN!"
+        fi
         popd > /dev/null
     fi
 }
@@ -230,12 +267,21 @@ if [[ ${doInfo} == false ]]; then
     done
 else
     echo ""
-    printf "%-30s %-20s %-8s %-10s\n" "Repository" "Branch" "Dirty" "Needs push"
-    echo "------------------------------------------------------------------------"
+    printf "%-30s %-20s %-8s %-10s %-10s\n" "Repository" "Branch" "Dirty" "Lock drty" "Needs push"
+    echo "------------------------------------------------------------------------------------"
     for repo in ${sourceRepos}; do
         printBranchInfo ${repo}
     done
-    echo "------------------------------------------------------------------------"
+    echo "------------------------------------------------------------------------------------"
+    echo ""
+
+    if [[ ${doLongInfo} == true ]]; then
+        for repo in ${sourceRepos}; do
+            printGitStatus ${repo}
+        done
+    fi
+
+    echo "------------------------------------------------------------------------------------"
     echo ""
 fi
 
