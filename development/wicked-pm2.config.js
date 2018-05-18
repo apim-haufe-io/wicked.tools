@@ -10,7 +10,8 @@ module.exports = {
       cwd       : '../../wicked.portal-api',
       env: {
         NODE_ENV: 'localhost',
-        DEBUG: 'portal-env:*,portal-api:*,wicked-sdk:*',
+        DEBUG: '',
+        LOG_LEVEL: 'debug',
         PORTAL_CONFIG_BASE: '../wicked-sample-config'
       }
     },
@@ -19,7 +20,8 @@ module.exports = {
       script    : 'bin/www',
       cwd       : '../../wicked.portal',
       env: {
-        DEBUG: 'portal:*,wicked-sdk:*'
+        DEBUG: 'wicked-sdk:*',
+        LOG_LEVEL: 'debug'
       }
     },
     {
@@ -27,7 +29,8 @@ module.exports = {
       script    : 'bin/kong-adapter',
       cwd       : '../../wicked.portal-kong-adapter',
       env: {
-        DEBUG: 'kong-adapter:*,wicked-sdk:*'
+        DEBUG: 'wicked-sdk:*',
+        LOG_LEVEL: 'debug'
       }
     },
     {
@@ -35,7 +38,8 @@ module.exports = {
       script    : 'bin/authz',
       cwd       : '../../wicked.portal-auth',
       env: {
-        DEBUG: 'portal-auth:*,wicked-sdk:*'
+        DEBUG: 'wicked-sdk:*',
+        LOG_LEVEL: 'debug'
       }
     },
   ],
