@@ -7,7 +7,12 @@ if [[ $(whoami) != root ]]; then
 fi
 
 # https://stackoverflow.com/questions/13322485/how-to-get-the-primary-ip-address-of-the-local-machine-on-linux-and-os-x
-localIP=$(ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p')
+localIP=$(ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p' | tail -1)
+if [[ -z $localIP ]]; then
+    echo "ERROR: ifconfig did not return a valid IPv4 address for your system."
+    echo "       Please connect to a network and try again."
+    exit 1
+fi
 
 echo "=========================================="
 echo "Local IPv4 address: ${localIP}"
