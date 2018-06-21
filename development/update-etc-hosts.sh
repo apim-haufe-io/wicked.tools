@@ -22,7 +22,7 @@ if [[ $(uname) == Darwin ]]; then
 else
     sed -i '/portal.local/d' /etc/hosts
 fi
-echo "${localIP}    portal.local,api.portal.local" >> /etc/hosts
+echo "${localIP}    portal.local,api.portal.local,portal.com,api.portal.com" >> /etc/hosts
 echo "=========================================="
 echo "Content of /etc/hosts:"
 echo "=========================================="
