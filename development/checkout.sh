@@ -8,8 +8,8 @@ set -e
 
 currentDir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-expectedNodeVersion="8"
-expectedNpmVersion="5"
+expectedNodeVersion="10"
+expectedNpmVersion="6"
 
 trap failure ERR
 
@@ -27,7 +27,9 @@ if [[ $1 == --info ]] || [[ $1 == --status ]]; then
         doLongInfo=true
     fi
 else
-    if [[ -z "$1" ]] || [[ $1 =~ --* ]]; then
+    echo $1
+
+    if [[ -z "$1" ]] || [[ $1 =~ ^--* ]]; then
 
         echo "Usage: $0 <branch> [--pull] [--install] [<other options>]" #  [--create]"
         echo "  The script checks whether the wicked repositories exist parallel to this repository (../..),"
@@ -98,22 +100,22 @@ if [[ ${doInfo} == false ]]; then
         echo "INFO: Detected node ${nodeVersion}, this is fine."
     else
         if [[ ${ignoreVersions} == false ]]; then
-            echo "ERROR: wicked assumes node 8, you are running ${nodeVersion}."
+            echo "ERROR: wicked assumes node ${expectedNodeVersion}, you are running ${nodeVersion}."
             echo "To ignore this, use the --ignore-versions option."
             exit 1
         else
-            echo "WARNING: wicked assumes node 8, you are running ${nodeVersion}, ignoring due to --ignore-versions."
+            echo "WARNING: wicked assumes node ${expectedNodeVersion}, you are running ${nodeVersion}, ignoring due to --ignore-versions."
         fi
     fi
     if [[ ${npmVersion} =~ ^${expectedNpmVersion}\.* ]]; then
         echo "INFO: Detected npm v${npmVersion}, this is fine."
     else
         if [[ ${ignoreVersions} == false ]]; then
-            echo "ERROR: wicked assumes npm 5, you are running npm ${npmVersion}."
+            echo "ERROR: wicked assumes npm ${expectedNpmVersion}, you are running npm ${npmVersion}."
             echo "To ignore this, use the --ignore-versions option."
             exit 1
         else
-            echo "WARNING: wicked assumes npm 5, you are running npm ${npmVersion}, ignoring due to --ignore-versions."
+            echo "WARNING: wicked assumes npm ${expectedNpmVersion}, you are running npm ${npmVersion}, ignoring due to --ignore-versions."
         fi
     fi
 fi
