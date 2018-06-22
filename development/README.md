@@ -73,7 +73,7 @@ Run the following to create entries `portal.com` and `api.portal.com` to point t
 ~/Projects/wicked/wicked.portal-tools/development$ sudo ./update-etc-hosts.sh
 ```
 
-### Step 4: Use pm2 to start wicked locally
+### Step 5: Use pm2 to start wicked locally
 
 Now you can start wicked using pm2:
 
