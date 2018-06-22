@@ -6,7 +6,7 @@ The tool chain for setting up a wicked development environment has primarily bee
 
 Still, the following are the current known prerequisites:
 
-* node.js 8
+* node.js 10, npm 6
 * A `bash` compatible shell
 * A recent Docker installation, presumably Docker for Mac or Docker for Windows, or a `docker` installation (with `docker-compose`) on Linux
 * `git`
@@ -62,6 +62,16 @@ Creating development_kong_1          ... done
 ```
 
 **NOTE**: This assumes that the ports 5432 (Postgres), 6379 (Redis), 8000 and 8001 (Kong) are not already used on your local machine.
+
+### Step 4: Create entries in /etc/hosts
+
+**NOTE**: This assumes you are on macOS or Linux.
+
+Run the following to create entries `portal.com` and `api.portal.com` to point to your `127.0.0.1` device:
+
+```bash
+~/Projects/wicked/wicked.portal-tools/development$ sudo ./update-etc-hosts.sh
+```
 
 ### Step 4: Use pm2 to start wicked locally
 

@@ -9,7 +9,7 @@ module.exports = {
       script    : 'bin/api',
       cwd       : '../../wicked.portal-api',
       env: {
-        NODE_ENV: 'localhost',
+        NODE_ENV: 'portal_local',
         DEBUG: '',
         LOG_LEVEL: 'debug',
         PORTAL_CONFIG_BASE: '../wicked-sample-config'
@@ -35,7 +35,8 @@ module.exports = {
     },
     {
       name      : 'portal-auth',
-      script    : 'bin/authz',
+      script    : 'npm',
+      args      : 'run build',
       cwd       : '../../wicked.portal-auth',
       env: {
         DEBUG: 'wicked-sdk:*',
