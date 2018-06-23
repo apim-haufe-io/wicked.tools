@@ -7,6 +7,7 @@ The tool chain for setting up a wicked development environment has primarily bee
 Still, the following are the current known prerequisites:
 
 * node.js 10, npm 6
+* The latest TypeScript installed globally (`npm install typescript -g`; the command `tsc` must be available)
 * A `bash` compatible shell
 * A recent Docker installation, presumably Docker for Mac or Docker for Windows, or a `docker` installation (with `docker-compose`) on Linux
 * `git`
@@ -131,24 +132,24 @@ Use the following command to check the state of your development environment:
 ~/Projects/wicked/wicked.portal-tools/development$ ./checkout.sh --info
 ==== STARTING ==== ./checkout.sh
 
-Repository                     Branch               Dirty    Needs push
-------------------------------------------------------------------------
+Repository                     Branch               Dirty    Lock drty   Needs push
+-------------------------------------------------------------------------------------
 wicked.portal                  wicked_1_0           Yes                
 wicked.portal-api              wicked_1_0           Yes                
 wicked.portal-chatbot          next                 Yes                
 wicked.portal-env              wicked_1_0                              
-wicked.portal-kong-adapter     wicked_1_0           Yes                
+wicked.portal-kong-adapter     wicked_1_0           Yes      Yes          
 wicked.portal-mailer           wicked_1_0           Yes                
 wicked.portal-kickstarter      wicked_1_0           Yes                
 wicked.portal-auth             next                 Yes                
 wicked.k8s-init                next                 Yes                
 wicked.portal-test             wicked_1_0           Yes                
 wicked.kong                    wicked_1_0           Yes                
-wicked.k8s-tool                next                                    
+wicked.k8s-tool                next                                     Yes       
 wicked.portal-test             wicked_1_0           Yes                
 wicked.node-sdk                wicked_1_0                              
 wicked-sample-config           wicked_1_0                              
-------------------------------------------------------------------------
+-------------------------------------------------------------------------------------
 
 ==========================
 SUCCESS: ./checkout.sh
