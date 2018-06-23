@@ -210,9 +210,15 @@ In order to be able to debug in `wicked.portal-api`, you will have to make sure 
 
 * `NODE_ENV=localhost`
 * `PORTAL_CONFIG_BASE=../wicked-sample-config`
-* Optionally: `DEBUG`; set to `*` to make it output *lots* of information
+* `LOG_LEVEL` can optionally be changed to either `info` or `debug`; `debug` is the default, and outputs **lots** of information
 
 The env var `PORTAL_CONFIG_BASE` can be set to something else, but this is the sample configuration repository which usually works for development. If you want to test other configurations, go ahead and change this to use your own configuration.
+
+The storage type in the sample repository is set to `postgres` as a default; if you want to work with the JSON backend, additionally specify the following env var:
+
+* `PORTAL_STORAGE_TYPE=json`
+
+This will create a `dynamic` sub dir to `../wicked-sample-config` (in addition to the `static` one containing the portal configuration).
 
 ### Update portal-env
 
