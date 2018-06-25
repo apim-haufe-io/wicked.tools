@@ -36,7 +36,7 @@ module.exports = {
     {
       name      : 'portal-auth',
       script    : 'npm',
-      args      : 'run build',
+      args      : 'run build-and-start',
       cwd       : '../../wicked.portal-auth',
       env: {
         DEBUG: 'wicked-sdk:*',
