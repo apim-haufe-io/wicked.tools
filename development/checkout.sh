@@ -290,7 +290,7 @@ fi
 if [[ ${doInstall} == true ]]; then
     runNpmInstall wicked.portal-env
     # Add the wicked.node-sdk to where it needs to be
-    ./wicked.node-sdk/install-local-sdk.sh
+    ./wicked.node-sdk/install-local-sdk.sh --copy
     # Add the portal-env package
     ./wicked.portal-env/local-update-portal-env.sh
     for repo in ${versionDirs}; do
