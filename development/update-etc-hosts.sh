@@ -32,9 +32,12 @@ echo "Local IPv4 address: ${localIP}"
 if [ "$(uname)" = "Darwin" ]; then
     sed -i '' '/portal.local/d' /etc/hosts
 else
-    sed -i '/portal.local/d' /etc/hosts
+    sed -i '/portal./d' /etc/hosts
 fi
-echo "${localIP}    portal.local,api.portal.local,portal.com,api.portal.com" >> /etc/hosts
+echo "${localIP}    portal.local" >> /etc/hosts
+echo "${localIP}    api.portal.local" >> /etc/hosts
+echo "${localIP}    portal.com" >> /etc/hosts
+echo "${localIP}    api.portal.com" >> /etc/hosts
 echo "=========================================="
 echo "Content of /etc/hosts:"
 echo "=========================================="
