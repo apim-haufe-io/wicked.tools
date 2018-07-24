@@ -30,7 +30,7 @@ echo "=========================================="
 echo "Local IPv4 address: ${localIP}"
 
 if [ "$(uname)" = "Darwin" ]; then
-    sed -i '' '/portal.local/d' /etc/hosts
+    sed -i '' '/portal./d' /etc/hosts
 else
     sed -i '/portal./d' /etc/hosts
 fi
