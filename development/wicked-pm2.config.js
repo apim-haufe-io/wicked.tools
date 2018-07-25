@@ -26,7 +26,8 @@ module.exports = {
     },
     {
       name      : 'portal-kong-adapter',
-      script    : 'bin/kong-adapter',
+      script    : 'npm',
+      args      : 'run build-and-start',
       cwd       : '../../wicked.portal-kong-adapter',
       env: {
         DEBUG: 'wicked-sdk:*',
