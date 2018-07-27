@@ -32,7 +32,7 @@ else
 
     if [[ -z "$1" ]] || [[ $1 =~ ^--* ]]; then
 
-        echo "Usage: $0 <branch> [--pull] [--install] [<other options>]" #  [--create]"
+        echo "Usage: $0 <branch> [--pull] [--install] [<other options>]" #  [--create]
         echo "  The script checks whether the wicked repositories exist parallel to this repository (../..),"
         echo "  and checks out the given branch. It will only do that if there are no open changes, and/or there"
         echo "  are no unpushed or uncommitted changes."
@@ -44,6 +44,9 @@ else
         echo "  --fallback <branch>"
         echo "            Specify a fallback branch, in case the main branch is not present for a repository"
         echo "  --kill-package-lock Delete package-lock.json prior to running npm install (may fix install issues)"
+        echo ""
+        echo "Usage (2): $0 --status" #  [--create]
+        echo "  Prints a list of the current status (branch, dirty, status, missing pushes) and exits."
         exit 1
     fi
 fi
