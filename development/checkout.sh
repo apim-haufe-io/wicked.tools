@@ -16,6 +16,7 @@ trap failure ERR
 function failure {
     echo "=========================="
     echo "ERROR: An error occurred, script exiting."
+    echo "       If this happened during an npm install, consider using the --kill-package-lock option."
     echo "=========================="
 }
 
@@ -42,6 +43,7 @@ else
         echo "  --install Install wicked SDK, portal-env and node_modules into the repositories"
         echo "  --fallback <branch>"
         echo "            Specify a fallback branch, in case the main branch is not present for a repository"
+        echo "  --kill-package-lock Delete package-lock.json prior to running npm install (may fix install issues)"
         exit 1
     fi
 fi
@@ -52,6 +54,7 @@ doCreate=false
 doInstall=false
 ignoreVersions=false
 manualFallbackBranch=""
+killPackageLock=false
 if [[ ${doInfo} == false ]]; then
     shift 1
     while [[ ! -z "$1" ]]; do
@@ -84,6 +87,10 @@ if [[ ${doInfo} == false ]]; then
                 shift 1
                 manualFallbackBranch="$1"
                 echo "INFO: Using manual fallback branch ${manualFallbackBranch}"
+                ;;
+            "--kill-package-lock")
+                killPackageLock=true
+                echo "INFO/WARN: Killing package-lock.json prior to running npm install."
                 ;;
             *)
                 echo "ERROR: Unknown option: $1"
@@ -118,6 +125,11 @@ if [[ ${doInfo} == false ]]; then
             echo "WARNING: wicked assumes npm ${expectedNpmVersion}, you are running npm ${npmVersion}, ignoring due to --ignore-versions."
         fi
     fi
+fi
+
+if ! ${doInstall} && ${killPackageLock}; then
+    echo "ERROR: If you specify --kill-package-lock, you must also specify --install"
+    exit 1
 fi
 
 baseUrl="https://github.com/apim-haufe-io/"
@@ -255,6 +267,12 @@ function runNpmInstall {
     thisRepo=$1
     pushd ${thisRepo} > /dev/null
     echo "INFO: Running npm install for repository ${thisRepo}"
+    if ${killPackageLock}; then
+        if [ -f ./package-lock.json ]; then
+            echo "WARN: Deleting package-lock.json first (due to --kill-package-lock)"
+            rm -f ./package-lock.json
+        fi
+    fi
     npm install > /dev/null
     popd > /dev/null
 }
