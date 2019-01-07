@@ -28,8 +28,16 @@ try {
 
 let fail = false;
 if (chart.version !== version) {
-    console.error(`ERROR: Version in Chart.yaml ${chart.version} does not match ${version}!`);
-    fail = true;
+    if (version.indexOf('beta') < 0) {
+        console.error(`ERROR: Version in Chart.yaml ${chart.version} does not match ${version}!`);
+        fail = true;
+    } else {
+        console.error(`WARNING: Version in Chart.yaml ${chart.version} does not match ${version}`);
+        if (!version.startsWith(chart.version)) {
+            console.error('ERROR: Even for betas, the version has to start like the chart version (it does not)');
+            fail = true;
+        }
+    }
 }
 if (values.image.tag !== version) {
     console.error(`ERROR: Tag (image.tag) in values.yaml ${values.image.tag} does not match ${version}!`);

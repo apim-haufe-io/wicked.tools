@@ -43,7 +43,8 @@ else
         echo "  --install Install wicked SDK, portal-env and node_modules into the repositories"
         echo "  --fallback <branch>"
         echo "            Specify a fallback branch, in case the main branch is not present for a repository"
-        echo "  --kill-package-lock Delete package-lock.json prior to running npm install (may fix install issues)"
+        echo "  --kill-package-lock Delete package-lock.json prior to running npm install (may fix install issues) (DEFAULT)"
+        echo "  --no-kill-package-lock DO NOT Delete package-lock.json prior to running npm install"
         echo ""
         echo "Usage (2): $0 --status" #  [--create]
         echo "  Prints a list of the current status (branch, dirty, status, missing pushes) and exits."
@@ -57,7 +58,7 @@ doCreate=false
 doInstall=false
 ignoreVersions=false
 manualFallbackBranch=""
-killPackageLock=false
+killPackageLock=true
 if [[ ${doInfo} == false ]]; then
     shift 1
     while [[ ! -z "$1" ]]; do
@@ -95,6 +96,10 @@ if [[ ${doInfo} == false ]]; then
                 killPackageLock=true
                 echo "INFO/WARN: Killing package-lock.json prior to running npm install."
                 ;;
+            "--no-kill-package-lock")
+                killPackageLock=false
+                echo "INFO/WARN: NOT Killing package-lock.json prior to running npm install."
+                ;;
             *)
                 echo "ERROR: Unknown option: $1"
                 exit 1
@@ -131,8 +136,8 @@ if [[ ${doInfo} == false ]]; then
 fi
 
 if ! ${doInstall} && ${killPackageLock}; then
-    echo "ERROR: If you specify --kill-package-lock, you must also specify --install"
-    exit 1
+    # Kill package lock only has an impact if "--install" is also specified.
+    killPackageLock=false
 fi
 
 baseUrl="https://github.com/apim-haufe-io/"
@@ -227,14 +232,11 @@ function printBranchInfo {
         pushd ${thisRepo} > /dev/null
         currentBranch=$(git rev-parse --abbrev-ref HEAD)
         gitOtherStatus=$(git status -s | grep -v package-lock || :)
-        gitLockStatus=$(git status -s | grep package-lock || :)
         isDirty=""
-        isLockDirty=""
         needsPush=""
         if [ -n "${gitOtherStatus}" ]; then isDirty=Yes; fi
-        if [ -n "${gitLockStatus}" ]; then isLockDirty=Yes; fi
         if [ -n "$(git cherry -v)" ]; then needsPush=Yes; fi
-        printf "%-30s %-20s %-8s %-10s %-10s\n" "${thisRepo}" "${currentBranch}" "${isDirty}" "${isLockDirty}" "${needsPush}"
+        printf "%-30s %-20s %-8s %-10s %-10s\n" "${thisRepo}" "${currentBranch}" "${isDirty}" "${needsPush}"
         popd > /dev/null
     fi
 }
@@ -290,7 +292,7 @@ if [[ ${doInfo} == false ]]; then
     done
 else
     echo ""
-    printf "%-30s %-20s %-8s %-10s %-10s\n" "Repository" "Branch" "Dirty" "Lock drty" "Needs push"
+    printf "%-30s %-20s %-8s %-10s %-10s\n" "Repository" "Branch" "Dirty" "Needs push"
     echo "------------------------------------------------------------------------------------"
     for repo in ${sourceRepos}; do
         printBranchInfo ${repo}

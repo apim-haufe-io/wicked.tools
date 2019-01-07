@@ -55,14 +55,28 @@ This will create a local docker image (on your machine) called `wicked.kong:loca
 Now it's assumed that you have a local `docker` daemon running, and that you have a recent `docker-compose` binary in your path. Then just run:
 
 ```bash
-~/Projects/wicked/wicked.portal-tools/development$ docker-compose up -d
+$ ./start-devenv.sh 
+Finding local IP addresses...
+[ '10.100.3.230' ]
+Building prometheus-config
+Step 1/2 : FROM prom/prometheus:v2.6.0
+ ---> bc2b9d813555
+Step 2/2 : COPY prometheus.yml /etc/prometheus/prometheus.yml
+ ---> Using cache
+ ---> 1c257b0cdc87
+Successfully built 1c257b0cdc87
+Successfully tagged development_prometheus-config:latest
 Creating network "development_default" with the default driver
-Creating development_redis_1         ... done
-Creating development_kong-database_1 ... done
-Creating development_kong_1          ... done
+Creating development_prometheus-config_1 ... done
+Creating development_redis_1             ... done
+Creating development_kong-database_1     ... done
+Creating development_prometheus_1        ... done
+Creating development_kong_1              ... done
 ```
 
-**NOTE**: This assumes that the ports 5432 (Postgres), 6379 (Redis), 8000 and 8001 (Kong) are not already used on your local machine.
+**NOTE**: This assumes that the ports 5432 (Postgres), 6379 (Redis), 8000, 8001 (Kong) and 9090 (Prometheus) are not already used on your local machine.
+
+To delete the running environment, run the `stop-devenv.sh` script.
 
 ### Step 4: Create entries in /etc/hosts
 
@@ -96,6 +110,8 @@ Now you can start wicked using pm2:
 ```
 
 The API portal will be available at [http://localhost:3000](http://localhost:3000). Note that the wicked portal will immediately redirect to the IP address of your local machine instead of using the `localhost` alias. This has various reasons, the most important one being that Kong must be able to reach the services run via pm2, such as `portal-api:3001`. This is only possible if Kong actually knows the local IP.
+
+The configuration the local installation uses is the `wicked-sample-config` configuration, which is also automatically checked out by the `checkout.sh` script. It's located at the same level in your source code tree as all the other repositories.
 
 ## Now what?
 
