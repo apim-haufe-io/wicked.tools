@@ -2,7 +2,7 @@
 
 The scripts in this repository can be used to set up a sample environment of wicked, using Azure AKS (managed Kubernetes), kube-lego and the wicked Helm chart.
 
-These scripts assumes that you have cloned the wicked repositories in a way that `wicked.portal-tools` is at the same level as the `wicked.haufe.io` repository, which contains the wicked Helm Chart.
+These scripts assumes that you have cloned the wicked repositories in a way that `wicked.tools` is at the same level as the `wicked.haufe.io` repository, which contains the wicked Helm Chart.
 
 ## Prerequisites
 

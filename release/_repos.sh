@@ -1,21 +1,21 @@
 #!/bin/bash
 
-baseRepos="wicked.portal \
-    wicked.portal-api \
-    wicked.portal-chatbot \
-    wicked.portal-env \
-    wicked.portal-kong-adapter \
-    wicked.portal-mailer \
-    wicked.portal-kickstarter \
-    wicked.portal-auth \
+baseRepos="wicked.ui \
+    wicked.api \
+    wicked.chatbot \
+    wicked.env \
+    wicked.kong-adapter \
+    wicked.mailer \
+    wicked.kickstarter \
+    wicked.auth \
     wicked.k8s-init"
 
 jsRepos="${baseRepos} \
-    wicked.portal-test"
+    wicked.test"
 
 versionDirs="${baseRepos} \
-    wicked.portal-test/portal-api \
-    wicked.portal-test/portal-kong-adapter"
+    wicked.test/portal-api \
+    wicked.test/portal-kong-adapter"
 
 repos="${jsRepos} \
     wicked.kong \
@@ -31,10 +31,10 @@ imageRepos="${baseRepos} \
 
 imageBases=$(for r in ${imageRepos}; do echo ${r:7}; done)
 
-alpineImageBases="portal-env \
-    portal-api \
-    portal-chatbot \
-    portal \
-    portal-kong-adapter \
-    portal-mailer \
-    portal-kickstarter"
+alpineImageBases="env \
+    api \
+    chatbot \
+    ui \
+    kong-adapter \
+    mailer \
+    kickstarter"

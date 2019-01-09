@@ -19,7 +19,7 @@ if [ ! "$1" = "--docs" ]; then
 	echo "Checking package.all.json"
 	echo "==============================="
 
-	pushd wicked.portal-env > /dev/null
+	pushd wicked.env > /dev/null
 	node assemble-packages.js
 	popd > /dev/null
 

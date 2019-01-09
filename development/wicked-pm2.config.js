@@ -5,9 +5,9 @@ module.exports = {
    */
   apps : [
     {
-      name      : 'portal-api',
+      name      : 'api',
       script    : 'bin/api',
-      cwd       : '../../wicked.portal-api',
+      cwd       : '../../wicked.api',
       env: {
         NODE_ENV: 'portal_local',
         DEBUG: '',
@@ -16,29 +16,29 @@ module.exports = {
       }
     },
     {
-      name      : 'portal',
+      name      : 'ui',
       script    : 'bin/www',
-      cwd       : '../../wicked.portal',
+      cwd       : '../../wicked.ui',
       env: {
         DEBUG: 'wicked-sdk:*',
         LOG_LEVEL: 'debug'
       }
     },
     {
-      name      : 'portal-kong-adapter',
+      name      : 'kong-adapter',
       script    : 'npm',
       args      : 'run build-and-start',
-      cwd       : '../../wicked.portal-kong-adapter',
+      cwd       : '../../wicked.kong-adapter',
       env: {
         DEBUG: 'wicked-sdk:*',
         LOG_LEVEL: 'debug'
       }
     },
     {
-      name      : 'portal-auth',
+      name      : 'auth',
       script    : 'npm',
       args      : 'run build-and-start',
-      cwd       : '../../wicked.portal-auth',
+      cwd       : '../../wicked.auth',
       env: {
         DEBUG: 'wicked-sdk:*',
         LOG_LEVEL: 'debug'

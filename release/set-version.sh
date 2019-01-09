@@ -35,7 +35,7 @@ fi
 echo "Branches are all set to 'next', updating package.json."
 
 export WICKED_DIRS="${versionDirs}"
-node wicked.portal-tools/release/set-version $1
+node wicked.tools/release/set-version $1
 
 for d in ${subDirList}; do
     pushd $d > /dev/null

@@ -27,9 +27,9 @@ mkdir tmp
 pushd tmp &> /dev/null
   echo "INFO: Retrieving HEAD of portal-env..."
   git init &> /dev/null
-  git remote add github https://github.com/apim-haufe-io/wicked.portal-env.git &> /dev/null
+  git remote add github https://github.com/apim-haufe-io/wicked.env.git &> /dev/null
   envBranchHead=$(git ls-remote github refs/heads/${branch} | cut -f 1)
-  echo "INFO: portal-env ${branch} HEAD: ${envBranchHead}"
+  echo "INFO: env ${branch} HEAD: ${envBranchHead}"
 popd
 rm -rf tmp
 
@@ -39,7 +39,7 @@ failed=0
 for alpine in "-alpine" ""; do
   # imageRepos from _repos.sh
   for repo in ${imageRepos}; do
-    if [[ "$repo" != "wicked.portal-env" ]]; then
+    if [[ "$repo" != "wicked.env" ]]; then
       mkdir tmp
       echo ""
       echo "Verifying ${repo}:${branch}${alpine}..."
@@ -67,7 +67,7 @@ for alpine in "-alpine" ""; do
         if [[ $isNotEnvBased == 0 ]]; then
           docker cp tmp_image:/usr/src/portal-env/git_last_commit env_git_last_commit
           dockerEnvCommit=$(head -1 env_git_last_commit | cut -d ' ' -f 2)
-          echo "- portal-env commit: ${dockerEnvCommit}"
+          echo "- env commit: ${dockerEnvCommit}"
           if [[ ${dockerEnvCommit} != ${envBranchHead} ]]; then
             echo "ERROR: Mismatch in env commit!"
             failed=1

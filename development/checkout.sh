@@ -40,7 +40,7 @@ else
         echo "Options:"
         echo "  --info [--long] Just print branch information and quit (alias: --status)."
         echo "  --pull    Also pull the latest changes from the origin."
-        echo "  --install Install wicked SDK, portal-env and node_modules into the repositories"
+        echo "  --install Install wicked SDK, env and node_modules into the repositories"
         echo "  --fallback <branch>"
         echo "            Specify a fallback branch, in case the main branch is not present for a repository"
         echo "  --kill-package-lock Delete package-lock.json prior to running npm install (may fix install issues) (DEFAULT)"
@@ -147,10 +147,10 @@ pushd ${currentDir} > /dev/null
 pushd ../../ > /dev/null
 
 function cloneRepo {
-    echo "=====================" >> ./wicked.portal-tools/development/git-clone.log
-    echo "Cloning repo $1" >> ./wicked.portal-tools/development/git-clone.log
-    echo "=====================" >> ./wicked.portal-tools/development/git-clone.log
-    git clone "${baseUrl}$1" >> ./wicked.portal-tools/git-clone.log
+    echo "=====================" >> ./wicked.tools/development/git-clone.log
+    echo "Cloning repo $1" >> ./wicked.tools/development/git-clone.log
+    echo "=====================" >> ./wicked.tools/development/git-clone.log
+    git clone "${baseUrl}$1" >> ./wicked.tools/git-clone.log
 }
 
 function hasBranch {
@@ -311,13 +311,13 @@ else
 fi
 
 if [[ ${doInstall} == true ]]; then
-    runNpmInstall wicked.portal-env
+    runNpmInstall wicked.env
     # Add the wicked.node-sdk to where it needs to be
     ./wicked.node-sdk/install-local-sdk.sh --copy
-    # Add the portal-env package
-    ./wicked.portal-env/local-update-portal-env.sh --copy
+    # Add the env package
+    ./wicked.env/local-update-portal-env.sh --copy
     for repo in ${versionDirs}; do
-        if [[ ${repo} != wicked.portal-env ]]; then
+        if [[ ${repo} != wicked.env ]]; then
             runNpmInstall ${repo}
         fi
     done

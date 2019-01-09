@@ -35,13 +35,13 @@ if [[ ! "$1" =~ $versionregex ]]; then
     exit 1
 fi
 
-for repo in "wicked.portal" \
-            "wicked.portal-env" \
-            "wicked.portal-api" \
-            "wicked.portal-chatbot" \
-            "wicked.portal-kickstarter" \
-            "wicked.portal-mailer" \
-            "wicked.portal-kong-adapter" \
+for repo in "wicked.ui" \
+            "wicked.env" \
+            "wicked.api" \
+            "wicked.chatbot" \
+            "wicked.kickstarter" \
+            "wicked.mailer" \
+            "wicked.kong-adapter" \
             "wicked.k8s-init"; do
 
     echo Versioning repository $repo...

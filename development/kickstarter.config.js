@@ -5,10 +5,10 @@ module.exports = {
      */
     apps : [
       {
-        name      : 'portal-kickstarter',
+        name      : 'kickstarter',
         script    : 'bin/kickstart',
         args      : '../wicked-sample-config',
-        cwd       : '../../wicked.portal-kickstarter',
+        cwd       : '../../wicked.kickstarter',
         env: {
           DEBUG: 'portal-env:*,kickstarter:*'
         }
