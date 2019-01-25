@@ -2,7 +2,7 @@ version: '2'
 
 services:
   kong-database:
-    image: postgres:9.6
+    image: postgres:11.1-alpine
     environment:
     - "POSTGRES_USER=kong"
     - "POSTGRES_PASSWORD=kong"
@@ -28,7 +28,7 @@ services:
     - "PROXY_SSL_CERT"
 
   redis:
-    image: redis:3.2.10-alpine
+    image: redis:5.0-alpine
     ports:
     - "6379:6379"
     restart: unless-stopped

@@ -27,15 +27,15 @@ To get your wicked development environment up and running as fast as possible, p
 ~/Projects/wicked$ git clone https://github.com/apim-haufe-io/wicked.tools
 ...
 ~/Projects/wicked$ cd wicked.tools
-~/Projects/wicked/wicked.tools$ git checkout wicked_1_0 # This will be removed later
+~/Projects/wicked/wicked.tools$ git checkout next
 ~/Projects/wicked/wicked.tools$ cd development
 ~/Projects/wicked/wicked.tools/development$ ./checkout.sh <branch> --install
 ```
 
-Please replace `<branch>` with the branch you want to check out. Please note that these scripts will only work as intended for wicked 1.0 and later, and not for the 0.x releases. As soon as wicked 1.0.0 has been released, the usual branch will be `next`, and until then, use
+Please replace `<branch>` with the branch you want to check out. Please note that these scripts will only work as intended for wicked 1.0 and later, and not for the 0.x releases. The branch which used for development of features which will "soon" make it into a release, i.e. into the next release, are residing on the `next` branch. In some cases larger features which need larger changes in multiple repositories will get its own cross-repository branch (much like how `wicked_1_0` was used for the development towards the wicked 1.0.0 version). 
 
 ```
-~/Projects/wicked/wicked.tools/development$ ./checkout.sh wicked_1_0 --install
+~/Projects/wicked/wicked.tools/development$ ./checkout.sh next --install
 ```
 
 This will checkout all repositories which are needed to run wicked locally, plus install all the necessary `node_modules`. This may take a while, but it's mostly only the first time.
