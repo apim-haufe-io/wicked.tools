@@ -45,7 +45,7 @@ for image in ${imageBases}; do
     echo "Removing tag for $image..."
     echo "Delete normal tag..."
     suffix=""
-    if [[ $image == portal-env ]]; then
+    if [[ $image == env ]]; then
         suffix="-onbuild"
     fi
     curl -X DELETE -H "Authorization: JWT ${TOKEN}" https://hub.docker.com/v2/repositories/${DOCKER_PREFIX}${image}/tags/${tag}${suffix}/

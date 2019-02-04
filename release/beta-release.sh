@@ -52,7 +52,7 @@ for image in ${imageBases}; do
         echo "Image ${image}:"
         echo "==================================="
         tagSuffix=""
-        if [ "portal-env" = "$image" ]; then
+        if [ "env" = "$image" ]; then
             tagSuffix="-onbuild"
         fi
         branchImage=haufelexware/wicked.${image}:${sourceTag}${tagSuffix}

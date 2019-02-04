@@ -45,7 +45,7 @@ for image in ${imageBases}; do
 
     echo ""
     tagSuffix=""
-    if [ "portal-env" = "$image" ]; then
+    if [ "env" = "$image" ]; then
         tagSuffix="-onbuild"
     fi
     imageName=${DOCKER_PREFIX}${image}
@@ -69,7 +69,7 @@ for image in ${alpineImageBases}; do
 
     echo ""
     tagSuffix=""
-    if [ "portal-env" = "$image" ]; then
+    if [ "env" = "$image" ]; then
         tagSuffix="-onbuild"
     fi
     imageName=${DOCKER_PREFIX}${image}
