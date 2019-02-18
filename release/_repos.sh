@@ -19,7 +19,8 @@ versionDirs="${baseRepos} \
 
 repos="${jsRepos} \
     wicked.kong \
-    wicked.k8s-tool"
+    wicked.k8s-tool \
+    wicked.box"
 
 sourceRepos="${repos} \
     wicked.node-sdk \
@@ -27,7 +28,8 @@ sourceRepos="${repos} \
 
 imageRepos="${baseRepos} \
     wicked.kong \
-    wicked.k8s-tool"
+    wicked.k8s-tool \
+    wicked.box"
 
 imageBases=$(for r in ${imageRepos}; do echo ${r:7}; done)
 
