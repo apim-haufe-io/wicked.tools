@@ -33,6 +33,16 @@ pushd tmp &> /dev/null
 popd
 rm -rf tmp
 
+mkdir tmp
+pushd tmp &> /dev/null
+  echo "INFO: Retrieving HEAD of wicked-sdk..."
+  git init &> /dev/null
+  git remote add github https://github.com/apim-haufe-io/wicked.node-sdk.git &> /dev/null
+  sdkBranchHead=$(git ls-remote github refs/heads/${branch} | cut -f 1)
+  echo "INFO: SDK ${branch} HEAD: ${sdkBranchHead}"
+popd
+rm -rf tmp
+
 #set -x
 
 failed=0
@@ -51,7 +61,7 @@ for alpine in "-alpine" ""; do
         echo "- Pulling docker images..."
         imageName=haufelexware/${repo}:${branch}${alpine}
         isNotEnvBased=0
-        if [[ "wicked.kong" == "$repo" ]] || [[ "wicked.k8s-init" == "$repo" ]] || [[ "wicked.k8s-tool" == "$repo" ]]; then
+        if [[ "wicked.kong" == "$repo" ]] || [[ "wicked.k8s-init" == "$repo" ]] || [[ "wicked.k8s-tool" == "$repo" ]] || [[ "wicked.box" == "$repo" ]]; then
           imageName=haufelexware/${repo}:${branch}
           isNotEnvBased=1
         fi

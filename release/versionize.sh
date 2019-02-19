@@ -28,7 +28,8 @@ if [ -z "$1" ]; then
     exit 1
 fi
 
-versionregex="^([0-9]+)\.([0-9]+)\.[0-9]+$"
+# https://github.com/semver/semver/issues/232
+versionregex="^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(-(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(\.(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*)?(\+[0-9a-zA-Z-]+(\.[0-9a-zA-Z-]+)*)?$"
 
 if [[ ! "$1" =~ $versionregex ]]; then
     echo "Invalid version (needs to be x.y.z): $1"

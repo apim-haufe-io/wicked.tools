@@ -34,6 +34,7 @@ imageRepos="${baseRepos} \
 imageBases=$(for r in ${imageRepos}; do echo ${r:7}; done)
 
 alpineImageBases="env \
+    auth \
     api \
     chatbot \
     ui \
