@@ -8,9 +8,10 @@ module.exports = {
       name      : 'api',
       script    : 'bin/api',
       cwd       : '../../wicked.api',
+      watch     : true,
+      ignore_watch: ['.git', 'node_modules', 'routes/internal_apis/**/swagger.json'],
       env: {
         NODE_ENV: 'portal_local',
-        DEBUG: '',
         LOG_LEVEL: 'debug',
         PORTAL_CONFIG_BASE: '../wicked-sample-config'
       }
@@ -19,8 +20,10 @@ module.exports = {
       name      : 'ui',
       script    : 'bin/www',
       cwd       : '../../wicked.ui',
+      watch     : true,
+      ignore_watch: ['.git', 'node_modules'],
       env: {
-        DEBUG: 'wicked-sdk:*',
+        // DEBUG: 'wicked-sdk:*',
         LOG_LEVEL: 'debug'
       }
     },
@@ -29,8 +32,10 @@ module.exports = {
       script    : 'npm',
       args      : 'run build-and-start',
       cwd       : '../../wicked.kong-adapter',
+      watch     : true,
+      ignore_watch: ['.git', 'node_modules', 'dist'],
       env: {
-        DEBUG: 'wicked-sdk:*',
+        // DEBUG: 'wicked-sdk:*',
         LOG_LEVEL: 'debug'
       }
     },
@@ -39,17 +44,12 @@ module.exports = {
       script    : 'npm',
       args      : 'run build-and-start',
       cwd       : '../../wicked.auth',
+      watch     : true,
+      ignore_watch: ['.git', 'node_modules', 'dist'],
       env: {
-        DEBUG: 'wicked-sdk:*',
+        // DEBUG: 'wicked-sdk',
         LOG_LEVEL: 'debug'
       }
-    },
-  ],
-
-  /**
-   * Deployment section - not needed/makes no sense for wicked here.
-   * http://pm2.keymetrics.io/docs/usage/deployment/
-   */
-  deploy : {
-  }
+    }
+  ]
 };

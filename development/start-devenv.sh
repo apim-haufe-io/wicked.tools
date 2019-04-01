@@ -8,3 +8,5 @@ envsubst < prometheus/template/prometheus.yml.template > prometheus/prometheus.y
 
 docker-compose build prometheus-config
 docker-compose up -d --force-recreate
+
+pm2 start wicked-pm2.config.js
