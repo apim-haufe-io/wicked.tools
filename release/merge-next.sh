@@ -28,7 +28,7 @@ if [ ! "$1" = "--docs" ]; then
 	echo "==============================="
 
 	allClean=true
-	for f in ${repos} wicked.haufe.io; do
+	for f in ${repos} wicked.haufe.io wicked.node-sdk; do
 		echo "=====> $f"
 		pushd $f > /dev/null
 		gitStatus="$(git status -s)"
@@ -56,7 +56,7 @@ if [ ! "$1" = "--docs" ]; then
 		echo "Merging next to master"
 		echo "==============================="
 
-		for f in ${repos}; do
+		for f in ${repos} wicked.node-sdk; do
 			echo "=====> $f"
 			pushd $f && git checkout master && git pull && git merge -m "Merge branch next to master" next && git push && git checkout next && popd
 			echo ""
