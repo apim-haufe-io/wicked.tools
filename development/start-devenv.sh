@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 localIp=$(node js/get-local-ips.js)
 
 export LOCAL_IP=${localIp}
