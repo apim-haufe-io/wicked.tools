@@ -7,7 +7,7 @@ The tool chain for setting up a wicked development environment has primarily bee
 Still, the following are the current known prerequisites:
 
 * node.js 10, npm 6
-* The latest TypeScript installed globally (`npm install typescript -g`; the command `tsc` must be available)
+* The latest TypeScript installed globally (`npm install -g typescript`; the command `tsc` must be available)
 * A `bash` compatible shell
 * A recent Docker installation, presumably Docker for Mac or Docker for Windows, or a `docker` installation (with `docker-compose`) on Linux
 * `git`
