@@ -22,7 +22,10 @@ for (let dirIndex in subDirs) {
     if (pkg.version !== versionToSet) {
         console.log(`Setting version in package.json of ${dir}.`);
         pkg.version = versionToSet;
-        fs.writeFileSync(pkgFileName, JSON.stringify(pkg, null, 2), 'utf8');
+        let packageJson = JSON.stringify(pkg, null, 2);
+        if (!packageJson.endsWith('\n'))
+            packageJson += '\n';
+        fs.writeFileSync(pkgFileName, packageJson, 'utf8');
     } else {
         console.log(`In ${dir}, package.json already has ${versionToSet}.`);
     }
