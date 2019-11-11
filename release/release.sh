@@ -4,8 +4,8 @@ set -e
 
 . ./_repos.sh
 
-# https://github.com/semver/semver/issues/232
-versionregex="^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(-(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(\.(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*)?(\+[0-9a-zA-Z-]+(\.[0-9a-zA-Z-]+)*)?$"
+# Simplified regex for the wicked semver
+versionregex="^([0-9]+).([0-9]+).([0-9]+)(-rc.[0-9]+)?$"
 
 dockerRegistry=$DOCKER_REGISTRY
 
