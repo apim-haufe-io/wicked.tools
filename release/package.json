@@ -4,7 +4,7 @@
   "description": "Wicked release tooling",
   "main": "verify-chart-versions.js",
   "dependencies": {
-    "async": "2.6.0",
+    "async": "3.2.2",
     "js-yaml": "3.11.0",
     "request": "^2.88.0"
   },
